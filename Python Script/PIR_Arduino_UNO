@@ -1,0 +1,31 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+int sensor = 2;
+int Pir;
+void setup() {
+  Serial.begin(115200);        // initialize serial
+  pinMode(sensor, INPUT);    // initialize sensor as an input
+  lcd.init();// initialize the lcd
+  lcd.backlight();
+}
+void loop()
+{
+  Pir = digitalRead(sensor); // Reading sensor value from pin 7
+  //Serial.println(Pir); // Printing output to serial monitor
+  if (Pir == 1) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("MotionDetected");
+  }
+  else {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("NoMotion");
+  }
+  delay(1000);
+  String P = (String(Pir) + ',');
+  Serial.print(P);
+  delay(1000);
+
+}
